@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- init JUL to SLF4J bridge -->
+    <bean class = "org.slf4j.bridge.SLF4JBridgeHandler" init-method = "install" lazy-init="false" />
+
+    <context:annotation-config/>
+    <context:component-scan base-package="fr.fcamblor.demos.sbjd" />
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:cacheSeconds="2" p:defaultEncoding="UTF-8" autowire-candidate="default">
+        <property name="basenames">
+            <array>
+                <value>classpath:messages</value>
+            </array>
+        </property>
+    </bean>
+    
+</beans>
