@@ -1,6 +1,6 @@
 package fr.fcamblor.demos.sbjd.models;
 
-import fr.fcamblor.demos.sbjd.stereotypes.PersistencyMode;
+import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author fcamblor
  */
 public class User {
-    @NotNull(groups=PersistencyMode.Update.class)
+    @NotNull(groups=ValidationMode.Update.class)
     Long id;
     @NotNull @Valid
     Credentials credentials;

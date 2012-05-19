@@ -1,6 +1,6 @@
 package fr.fcamblor.demos.sbjd.models;
 
-import fr.fcamblor.demos.sbjd.stereotypes.PersistencyMode;
+import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  * @author fcamblor
  */
 public class Address {
-    @NotNull(groups=PersistencyMode.Update.class)
+    @NotNull(groups=ValidationMode.Update.class)
     Long id;
     @NotNull @Size(min=5)
     String street1;
