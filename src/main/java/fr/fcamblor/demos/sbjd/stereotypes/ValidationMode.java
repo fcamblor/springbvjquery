@@ -7,4 +7,5 @@ package fr.fcamblor.demos.sbjd.stereotypes;
 public interface ValidationMode {
     public static interface Create{};
     public static interface Update{};
+    public static interface Authent{};
 }
