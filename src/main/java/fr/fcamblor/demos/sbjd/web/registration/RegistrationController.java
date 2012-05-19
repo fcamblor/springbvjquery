@@ -18,13 +18,13 @@ public class RegistrationController {
         return "welcome"; // Will forward to welcome.jsp file
     }
 
-    @RequestMapping(value="/registeredUser", method=RequestMethod.POST)
+    @RequestMapping(value="/users/registered", method=RequestMethod.POST)
     public @ResponseBody User registerUser(@RequestBody @Validated(ValidationMode.Create.class) User user){
         UserHolder.store(user); // Storing user in session
         return user;
     }
 
-    @RequestMapping(value="/registeredUser", method=RequestMethod.PUT)
+    @RequestMapping(value="/users/registered", method=RequestMethod.PUT)
     public @ResponseBody User updateRegisteredUser(@RequestBody @Validated(ValidationMode.Update.class) User user){
         if(UserHolder.user() == null){
             throw new IllegalStateException("No user registered for the moment ...");
@@ -33,7 +33,7 @@ public class RegistrationController {
         return user;
     }
 
-    @RequestMapping(value="/registeredUser", method=RequestMethod.GET)
+    @RequestMapping(value="/users/registered", method=RequestMethod.GET)
     public @ResponseBody User registeredUser(){
         return UserHolder.user(); // Retrieving stored user infos
     }
