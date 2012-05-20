@@ -16,20 +16,22 @@ public class Credentials {
     @NotNull(groups={ValidationMode.Authent.class, ValidationMode.Create.class})
     String password;
 
-    public String getLogin() {
-        return login;
+    public Credentials setLogin(String _login){
+        this.login = _login;
+        return this;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getLogin(){
+        return this.login;
     }
 
-    public String getPassword() {
-        return password;
+    public Credentials setPassword(String _password){
+        this.password = _password;
+        return this;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPassword(){
+        return this.password;
     }
 
     @Override
