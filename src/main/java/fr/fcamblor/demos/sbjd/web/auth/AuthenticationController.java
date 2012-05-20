@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author fcamblor
@@ -14,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AuthenticationController {
 
     @RequestMapping(value="auth/authenticate", method= RequestMethod.POST)
-    public void authenticate(@Validated(ValidationMode.Authent.class) Credentials credentials){
+    public @ResponseBody Object authenticate(@Validated(ValidationMode.Authent.class) Credentials credentials){
         // Do some stuff here to verify given credentials
         // You won't reach this point if either credentials.login or credentials.password field is let empty !
+
+        // Returning something, otherwise Spring will think we want to forward on
+        // /auth/authenticate.jsp view whereas we are in a REST method where we would like to return
+        // JSON objects, for example, successfully authenticated User object
+        return null;
     }
 }
