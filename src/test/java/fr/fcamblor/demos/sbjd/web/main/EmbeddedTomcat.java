@@ -36,6 +36,10 @@ public class EmbeddedTomcat {
 
     public void start() throws LifecycleException {
         tomcat.start();
+    }
+
+    public void startAndAwait() throws LifecycleException {
+        this.start();
         tomcat.getServer().await();
     }
 
