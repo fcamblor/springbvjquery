@@ -12,6 +12,9 @@ import static com.jayway.restassured.RestAssured.given;
  */
 public class AuthenticationControllerTest {
 
+    private static final int VALIDATION_ERROR_HTTP_STATUS_CODE = 500;
+    private static final int VALIDATION_OK_HTTP_STATUS_CODE = 200;
+
     @Rule
     // Ensuring a tomcat server will be up and running during test execution !
     public RequiresRunningEmbeddedTomcat tomcat = new RequiresRunningEmbeddedTomcat();
@@ -24,7 +27,7 @@ public class AuthenticationControllerTest {
                 param("password", "").
                 */
         expect().
-                statusCode(500).
+                statusCode(VALIDATION_ERROR_HTTP_STATUS_CODE).
         when().
                 post("/auth/authenticate");
     }
@@ -35,7 +38,7 @@ public class AuthenticationControllerTest {
                 param("login", "foo").
                 param("password", "bar").
         expect().
-                statusCode(200).
+                statusCode(VALIDATION_OK_HTTP_STATUS_CODE).
         when().
                 post("/auth/authenticate");
     }
