@@ -11,17 +11,20 @@ import org.junit.rules.ExternalResource;
  */
 public class RequiresRunningEmbeddedTomcat extends ExternalResource {
 
+    static private Object writeTomcatLock = new Object();
     static protected EmbeddedTomcat tomcat = null;
 
     @Override
     protected void before() throws Throwable {
         super.before();
 
-        // Starting tomcat embed only once per JVM
-        if(tomcat == null){
-            tomcat = new EmbeddedTomcat();
-            tomcat.start();
-            RestAssured.port = tomcat.getWebPort();
+        synchronized (writeTomcatLock){
+            // Starting tomcat embed only once per JVM, sharing static instance across rule instances
+            if(tomcat == null){
+                tomcat = new EmbeddedTomcat();
+                tomcat.start();
+                RestAssured.port = tomcat.getWebPort();
+            }
         }
     }
 
