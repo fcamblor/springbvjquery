@@ -1,6 +1,7 @@
 package fr.fcamblor.demos.sbjd.models;
 
 import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
+import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
  */
 public class Credentials {
     @NotNull @Size(min=1,max=25)
+    @Email // Hibernate validator "proprietary" annotation !
     String login;
     @Size(min=3)
     // Password should only be mandatory during create/authent (not in update)
