@@ -21,45 +21,51 @@ public class Address {
     @NotNull @Size(min=1)
     String city;
 
-    public Long getId() {
-        return id;
+    public Address setId(Long _id){
+        this.id = _id;
+        return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId(){
+        return this.id;
     }
 
-    public String getStreet1() {
-        return street1;
+    public Address setStreet1(String _street1){
+        this.street1 = _street1;
+        return this;
     }
 
-    public void setStreet1(String street1) {
-        this.street1 = street1;
+    public String getStreet1(){
+        return this.street1;
     }
 
-    public String getStreet2() {
-        return street2;
+    public Address setStreet2(String _street2){
+        this.street2 = _street2;
+        return this;
     }
 
-    public void setStreet2(String street2) {
-        this.street2 = street2;
+    public String getStreet2(){
+        return this.street2;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public Address setPostalCode(String _postalCode){
+        this.postalCode = _postalCode;
+        return this;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public String getPostalCode(){
+        return this.postalCode;
     }
 
-    public String getCity() {
-        return city;
+    public Address setCity(String _city){
+        this.city = _city;
+        return this;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public String getCity(){
+        return this.city;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -28,61 +28,69 @@ public class User {
     @Valid
     List<Address> addresses;
 
-    public Long getId() {
-        return id;
+    public User setId(Long _id){
+        this.id = _id;
+        return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId(){
+        return this.id;
     }
 
-    public Credentials getCredentials() {
-        return credentials;
+    public User setCredentials(Credentials _credentials){
+        this.credentials = _credentials;
+        return this;
     }
 
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
+    public Credentials getCredentials(){
+        return this.credentials;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public User setFirstName(String _firstName){
+        this.firstName = _firstName;
+        return this;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getFirstName(){
+        return this.firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public User setLastName(String _lastName){
+        this.lastName = _lastName;
+        return this;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getLastName(){
+        return this.lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public User setBirthDate(Date _birthDate){
+        this.birthDate = _birthDate;
+        return this;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public Date getBirthDate(){
+        return this.birthDate;
     }
 
-    public List<String> getPhoneNumbers() {
-        return phoneNumbers;
+    public User setPhoneNumbers(List<String> _phoneNumbers){
+        this.phoneNumbers = _phoneNumbers;
+        return this;
     }
 
-    public void setPhoneNumbers(List<String> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
+    public List<String> getPhoneNumbers(){
+        return this.phoneNumbers;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+    public User setAddresses(List<Address> _addresses){
+        this.addresses = _addresses;
+        return this;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public List<Address> getAddresses(){
+        return this.addresses;
     }
+
 
     @Override
     public boolean equals(Object o) {
