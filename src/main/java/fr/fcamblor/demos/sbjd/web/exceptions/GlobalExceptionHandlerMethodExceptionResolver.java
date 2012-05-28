@@ -12,6 +12,7 @@ import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -28,7 +29,8 @@ public class GlobalExceptionHandlerMethodExceptionResolver extends ExceptionHand
     // Instead of looking at handlerMethod.bean instance, looking at current exception resolver instance
     // which should contain @ExceptionHandler annotated methods
    	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
-        return new ServletInvocableHandlerMethod(this, CURRENT_CLASS_EXCEPTION_HANDLER_RESOLVER.resolveMethod(exception));
+        Method method = CURRENT_CLASS_EXCEPTION_HANDLER_RESOLVER.resolveMethod(exception);
+        return (method != null ? new ServletInvocableHandlerMethod(this, method) : null);
     }
 
     // These @ExceptionHandler methods will be executed instead of the @Controller ones !
