@@ -23,7 +23,7 @@ public class User {
     String lastName;
     @Past
     Date birthDate;
-    @NotNull @Size(min=1)
+    @NotNull @Size(min=1, message="{user.phoneNumbers.notEmpty}")
     List<String> phoneNumbers;
     @Valid
     List<Address> addresses;
