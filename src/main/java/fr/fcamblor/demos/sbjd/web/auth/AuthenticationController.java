@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.groups.Default;
+
 /**
  * @author fcamblor
  */
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AuthenticationController {
 
     @RequestMapping(value="auth/authenticate", method= RequestMethod.POST)
-    public @ResponseBody Object authenticate(@Validated(ValidationMode.Authent.class) Credentials credentials){
+    public @ResponseBody Object authenticate(@Validated({ Default.class, ValidationMode.Authent.class}) Credentials credentials){
         // Do some stuff here to verify given credentials
         // You won't reach this point if either credentials.login or credentials.password field is let empty !
 

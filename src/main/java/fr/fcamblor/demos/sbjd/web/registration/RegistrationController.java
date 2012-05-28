@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.groups.Default;
+
 /**
  * @author fcamblor
  */
@@ -22,13 +24,13 @@ public class RegistrationController {
     }
 
     @RequestMapping(value="/users/registered", method=RequestMethod.POST)
-    public @ResponseBody User registerUser(@RequestBody @Validated(ValidationMode.Create.class) User user){
+    public @ResponseBody User registerUser(@RequestBody @Validated(value={ Default.class, ValidationMode.Create.class }) User user){
         UserHolder.store(user); // Storing user in session
         return user;
     }
 
     @RequestMapping(value="/users/registered", method=RequestMethod.PUT)
-    public @ResponseBody User updateRegisteredUser(@RequestBody @Validated(ValidationMode.Update.class) User user){
+    public @ResponseBody User updateRegisteredUser(@RequestBody @Validated({ Default.class, ValidationMode.Update.class }) User user){
         if(UserHolder.loggedUser() == null){
             throw new IllegalStateException("No user registered for the moment ...");
         }
