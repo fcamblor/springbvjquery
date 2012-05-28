@@ -79,6 +79,6 @@ public class UserHolder {
             users = new ArrayList<User>();
         }
         users.add(user);
-        storeInSession(USERS_KEY, user);
+        storeInSession(USERS_KEY, users);
     }
 }
