@@ -5,7 +5,10 @@ import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
 import fr.fcamblor.demos.sbjd.web.holders.UserHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author fcamblor
@@ -26,7 +29,7 @@ public class RegistrationController {
 
     @RequestMapping(value="/users/registered", method=RequestMethod.PUT)
     public @ResponseBody User updateRegisteredUser(@RequestBody @Validated(ValidationMode.Update.class) User user){
-        if(UserHolder.user() == null){
+        if(UserHolder.loggedUser() == null){
             throw new IllegalStateException("No user registered for the moment ...");
         }
         UserHolder.store(user); // Updating stored user infos
@@ -35,6 +38,6 @@ public class RegistrationController {
 
     @RequestMapping(value="/users/registered", method=RequestMethod.GET)
     public @ResponseBody User registeredUser(){
-        return UserHolder.user(); // Retrieving stored user infos
+        return UserHolder.loggedUser(); // Retrieving stored user infos
     }
 }
