@@ -2,19 +2,20 @@ package fr.fcamblor.demos.sbjd.web;
 
 import fr.fcamblor.demos.sbjd.test.rules.RequiresDefaultRestAssuredConfiguration;
 import fr.fcamblor.demos.sbjd.test.rules.RequiresRunningEmbeddedTomcat;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * @author fcamblor
  */
 public class AuthenticationControllerTest {
 
-    private static final int VALIDATION_ERROR_HTTP_STATUS_CODE = 500;
-    private static final int VALIDATION_OK_HTTP_STATUS_CODE = 200;
+    private static final int VALIDATION_ERROR_HTTP_STATUS_CODE = HttpStatus.PRECONDITION_FAILED.value();
+    private static final int VALIDATION_OK_HTTP_STATUS_CODE = HttpStatus.OK.value();
 
     @Rule
     // Ensuring a tomcat server will be up and running during test execution !
@@ -22,11 +23,6 @@ public class AuthenticationControllerTest {
 
     @Rule
     public RequiresDefaultRestAssuredConfiguration raConfig = new RequiresDefaultRestAssuredConfiguration();
-
-    @Before
-    public void setup(){
-
-    }
 
     @Test
     public void nullCredentialsShouldntBeAccepted(){
@@ -42,10 +38,10 @@ public class AuthenticationControllerTest {
     @Test
     public void filledCredentialsShouldReturnOk(){
         given().
-                param("login", "foo").
+                param("login", "foo@bar.com").
                 param("password", "bar").
         expect().
-                statusCode(VALIDATION_OK_HTTP_STATUS_CODE).
+                statusCode(not(equalTo(VALIDATION_ERROR_HTTP_STATUS_CODE))).
         when().
                 post("/auth/authenticate");
     }
