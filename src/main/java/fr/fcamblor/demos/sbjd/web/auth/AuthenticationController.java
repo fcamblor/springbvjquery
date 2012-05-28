@@ -2,6 +2,7 @@ package fr.fcamblor.demos.sbjd.web.auth;
 
 import fr.fcamblor.demos.sbjd.models.Credentials;
 import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
+import fr.fcamblor.demos.sbjd.web.holders.UserHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class AuthenticationController {
         // Do some stuff here to verify given credentials
         // You won't reach this point if either credentials.login or credentials.password field is let empty !
 
+        UserHolder.login(credentials);
         // Returning something, otherwise Spring will think we want to forward on
         // /auth/authenticate.jsp view whereas we are in a REST method where we would like to return
         // JSON objects, for example, successfully authenticated User object

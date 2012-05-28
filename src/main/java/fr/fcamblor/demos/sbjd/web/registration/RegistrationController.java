@@ -3,6 +3,8 @@ package fr.fcamblor.demos.sbjd.web.registration;
 import fr.fcamblor.demos.sbjd.models.User;
 import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
 import fr.fcamblor.demos.sbjd.web.holders.UserHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,23 +20,22 @@ import javax.validation.groups.Default;
 @Controller
 public class RegistrationController {
 
+    Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
+
     @RequestMapping("/")
     public String welcomeView(){
         return "welcome"; // Will forward to welcome.jsp file
     }
 
-    @RequestMapping(value="/users/registered", method=RequestMethod.POST)
+    @RequestMapping(value="/users", method=RequestMethod.POST)
     public @ResponseBody User registerUser(@RequestBody @Validated(value={ Default.class, ValidationMode.Create.class }) User user){
         UserHolder.store(user); // Storing user in session
         return user;
     }
 
-    @RequestMapping(value="/users/registered", method=RequestMethod.PUT)
+    @RequestMapping(value="/users", method=RequestMethod.PUT)
     public @ResponseBody User updateRegisteredUser(@RequestBody @Validated({ Default.class, ValidationMode.Update.class }) User user){
-        if(UserHolder.loggedUser() == null){
-            throw new IllegalStateException("No user registered for the moment ...");
-        }
-        UserHolder.store(user); // Updating stored user infos
+        UserHolder.update(user); // Updating stored user infos
         return user;
     }
 
