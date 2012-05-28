@@ -25,10 +25,21 @@ public class AuthenticationControllerTest {
     public RequiresDefaultRestAssuredConfiguration raConfig = new RequiresDefaultRestAssuredConfiguration();
 
     @Test
-    public void nullCredentialsShouldntBeAccepted(){
+    public void nullCredentialsShouldntBeAcceptedInQueryParams(){
         given().
                 param("login").
                 param("password").
+        expect().
+                statusCode(VALIDATION_ERROR_HTTP_STATUS_CODE).
+        when().
+                post("/auth/authenticateQuery");
+    }
+
+    @Test
+    public void nullCredentialsShouldntBeAcceptedInBodyContent(){
+        given().
+                contentType("application/json").
+                body("{ \"login\": null, \"password\": null }").
         expect().
                 statusCode(VALIDATION_ERROR_HTTP_STATUS_CODE).
         when().
