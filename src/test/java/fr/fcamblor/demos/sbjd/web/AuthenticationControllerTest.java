@@ -1,7 +1,8 @@
 package fr.fcamblor.demos.sbjd.web;
 
-import fr.fcamblor.demos.sbjd.models.Credentials;
+import fr.fcamblor.demos.sbjd.test.rules.RequiresDefaultRestAssuredConfiguration;
 import fr.fcamblor.demos.sbjd.test.rules.RequiresRunningEmbeddedTomcat;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -19,13 +20,19 @@ public class AuthenticationControllerTest {
     // Ensuring a tomcat server will be up and running during test execution !
     public RequiresRunningEmbeddedTomcat tomcat = new RequiresRunningEmbeddedTomcat();
 
+    @Rule
+    public RequiresDefaultRestAssuredConfiguration raConfig = new RequiresDefaultRestAssuredConfiguration();
+
+    @Before
+    public void setup(){
+
+    }
+
     @Test
     public void nullCredentialsShouldntBeAccepted(){
         given().
-                /* Not setting any query parameters should result in an empty Credential object
-                param("login", "").
-                param("password", "").
-                */
+                param("login").
+                param("password").
         expect().
                 statusCode(VALIDATION_ERROR_HTTP_STATUS_CODE).
         when().
