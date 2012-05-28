@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
@@ -54,6 +52,40 @@ public class RegistrationControllerTest {
         expectUpdateUserStatus(createWellFormedUserForCreation(), VALIDATION_ERROR_HTTP_STATUS_CODE);
         // Editing existing user should be ok
         expectUpdateUserStatus(createWellFormedUserForCreation().setId(existingUser.getId()), VALIDATION_OK_HTTP_STATUS_CODE);
+    }
+
+    @Test
+    public void futureBirthDateShouldntBeAllowed(){
+        Calendar futureCalendar = new GregorianCalendar();
+        futureCalendar.add(Calendar.DAY_OF_YEAR, 1);
+        expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(futureCalendar.getTime()), VALIDATION_ERROR_HTTP_STATUS_CODE);
+        futureCalendar.add(Calendar.DAY_OF_YEAR, -1);
+        expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(futureCalendar.getTime()), VALIDATION_OK_HTTP_STATUS_CODE);
+    }
+
+    @Test
+    public void userAdressesShouldBeNullables(){
+        expectCreateUserStatus(createWellFormedUserForCreation().setAddresses(null), VALIDATION_OK_HTTP_STATUS_CODE);
+    }
+
+    @Test
+    public void userPhoneNumberShouldNeverBeNullNorEmpty(){
+        expectCreateUserStatus(createWellFormedUserForCreation().setPhoneNumbers(null), VALIDATION_ERROR_HTTP_STATUS_CODE);
+        expectCreateUserStatus(createWellFormedUserForCreation().setPhoneNumbers(Collections.<String>emptyList()), VALIDATION_ERROR_HTTP_STATUS_CODE);
+    }
+
+    @Test
+    public void adressStreet2ShouldBeEitherNullOrSizedWith5CharsMin(){
+        Address address = createWellFormedAddress();
+        User user = createWellFormedUserForCreation().setAddresses(Arrays.asList( address ));
+
+        expectCreateUserStatus(user, VALIDATION_OK_HTTP_STATUS_CODE); // Default address should be ok
+        address.setStreet2(null);
+        expectCreateUserStatus(user, VALIDATION_OK_HTTP_STATUS_CODE); // null street2 should be ok
+        address.setStreet2("A long street 2");
+        expectCreateUserStatus(user, VALIDATION_OK_HTTP_STATUS_CODE); // long street2 should be ok
+        address.setStreet2("aaa");
+        expectCreateUserStatus(user, VALIDATION_ERROR_HTTP_STATUS_CODE); // short street2 should _not_ be ok
     }
 
     protected User createUser(User userToCreate){
