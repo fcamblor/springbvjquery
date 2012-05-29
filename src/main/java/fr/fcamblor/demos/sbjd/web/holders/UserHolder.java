@@ -1,5 +1,6 @@
 package fr.fcamblor.demos.sbjd.web.holders;
 
+import fr.fcamblor.demos.sbjd.models.Address;
 import fr.fcamblor.demos.sbjd.models.Credentials;
 import fr.fcamblor.demos.sbjd.models.User;
 import org.springframework.web.context.request.RequestAttributes;
@@ -24,6 +25,15 @@ public class UserHolder {
 
     protected static <T> void storeInSession(String key, T value){
         RequestContextHolder.currentRequestAttributes().setAttribute(key, value, RequestAttributes.SCOPE_SESSION);
+    }
+
+    protected static User findUserById(Long userId){
+        for(User user : users()){
+            if(userId.equals(user.getId())){
+                return user;
+            }
+        }
+        return null;
     }
 
     public static User loggedUser(){
@@ -80,5 +90,15 @@ public class UserHolder {
         }
         users.add(user);
         storeInSession(USERS_KEY, users);
+    }
+
+    public static void updateUserAddresses(Long userId, List<Address> addresses) {
+        User user = findUserById(userId);
+        if(user != null){
+            if(user.getAddresses() == null){
+                user.setAddresses(new ArrayList<Address>());
+            }
+            user.getAddresses().addAll(addresses);
+        }
     }
 }
