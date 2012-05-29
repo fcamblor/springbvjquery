@@ -1,5 +1,6 @@
 package fr.fcamblor.demos.sbjd.web.registration;
 
+import fr.fcamblor.demos.sbjd.models.Address;
 import fr.fcamblor.demos.sbjd.models.User;
 import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
 import fr.fcamblor.demos.sbjd.web.holders.UserHolder;
@@ -7,12 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author fcamblor
@@ -37,6 +37,18 @@ public class RegistrationController {
     public @ResponseBody User updateRegisteredUser(@RequestBody @Validated({ Default.class, ValidationMode.Update.class }) User user){
         UserHolder.update(user); // Updating stored user infos
         return user;
+    }
+
+    @RequestMapping(value="/users/{userId}/addresses", method=RequestMethod.PUT)
+    public @ResponseBody Address[] addAddresses(@PathVariable Long userId, @RequestBody @Validated Address[] addresses){
+        UserHolder.updateUserAddresses(userId, Arrays.asList(addresses));
+        return addresses;
+    }
+
+    @RequestMapping(value="/users/{userId}/addressList", method=RequestMethod.PUT)
+    public @ResponseBody List<Address> addAddresses(@PathVariable Long userId, @RequestBody @Validated List<Address> addresses){
+        UserHolder.updateUserAddresses(userId, addresses);
+        return addresses;
     }
 
     @RequestMapping(value="/users/registered", method=RequestMethod.GET)

@@ -97,6 +97,17 @@ public class RegistrationControllerTest {
         expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(birthCalendar.getTime()), VALIDATION_ERROR_HTTP_STATUS_CODE);
     }
 
+    @Test
+    public void beanValidationShouldActStrangelyOnArraysAndCollectionsByNotValidatingThem(){
+        Address[] invalidAddresses = new Address[]{
+                new Address(),
+                new Address()
+        };
+        int strangeHttpCode = HttpStatus.OK.value(); // Yup, this is strange... I would have expected 412..
+        putJSONAndExpectStatus("/users/123/addresses", invalidAddresses, strangeHttpCode);
+        putJSONAndExpectStatus("/users/123/addressList", invalidAddresses, strangeHttpCode);
+    }
+
     protected User createUser(User userToCreate){
         return postJSONAndExpectStatus("/users", userToCreate, HttpStatus.OK.value()).as(User.class);
     }
