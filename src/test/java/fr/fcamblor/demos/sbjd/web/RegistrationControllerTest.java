@@ -1,5 +1,6 @@
 package fr.fcamblor.demos.sbjd.web;
 
+import com.jayway.restassured.response.Response;
 import fr.fcamblor.demos.sbjd.models.Address;
 import fr.fcamblor.demos.sbjd.models.Credentials;
 import fr.fcamblor.demos.sbjd.models.User;
@@ -97,43 +98,45 @@ public class RegistrationControllerTest {
     }
 
     protected User createUser(User userToCreate){
-        return
-        given().
-                contentType("application/json").
-                body(userToCreate).
-        expect().
-                statusCode(HttpStatus.OK.value()).
-        when().
-                post("/users").
-                as(User.class);
+        return postJSONAndExpectStatus("/users", userToCreate, HttpStatus.OK.value()).as(User.class);
     }
 
-    protected void expectCreateUserStatus(User userToCreate, int expectedStatusCode){
-        given().
-                contentType("application/json").
-                body(userToCreate).
-        expect().
-                statusCode(expectedStatusCode).
-        when().
-                post("/users");
+    protected Response expectCreateUserStatus(User userToCreate, int expectedStatusCode){
+        return postJSONAndExpectStatus("/users", userToCreate, expectedStatusCode);
     }
 
-    protected void expectUpdateUserStatus(User userToCreate, int expectedStatusCode){
-        given().
-                contentType("application/json").
-                body(userToCreate).
-        expect().
-                statusCode(expectedStatusCode).
-        when().
-                put("/users");
+    protected Response expectUpdateUserStatus(User userToCreate, int expectedStatusCode){
+        return putJSONAndExpectStatus("/users", userToCreate, expectedStatusCode);
     }
 
-    protected User expectGetUserStatus(int expectedStatusCode){
+    protected <T> T getObjectAndExpectStatus(String url, Class<T> clazz, int expectedStatusCode){
         return
         expect().
                 statusCode(expectedStatusCode).
         when().
-                post("/users/registered").as(User.class);
+                get(url).as(clazz);
+    }
+
+    protected Response postJSONAndExpectStatus(String url, Object objectToPut, int expectedStatusCode){
+        return
+        given().
+                contentType("application/json").
+                body(objectToPut).
+        expect().
+                statusCode(expectedStatusCode).
+        when().
+                post(url);
+    }
+
+    protected Response putJSONAndExpectStatus(String url, Object objectToPut, int expectedStatusCode){
+        return
+        given().
+                contentType("application/json").
+                body(objectToPut).
+        expect().
+                statusCode(expectedStatusCode).
+        when().
+                put(url);
     }
 
     protected static Address createWellFormedAddress(){
