@@ -65,6 +65,7 @@ public class RequiresDefaultRestAssuredConfiguration extends ExternalResource {
     protected void after() {
         // That's ugly but heh.. can't do better for the moment
         // see https://groups.google.com/forum/?fromgroups#!topic/rest-assured/KlR3UFvc_Qk
+        // and http://code.google.com/p/rest-assured/issues/detail?id=174
         try {
             Field filtersField = RestAssured.class.getDeclaredField("filters");
             filtersField.setAccessible(true);
