@@ -38,11 +38,7 @@ public class RequiresDefaultRestAssuredConfiguration extends ExternalResource {
             Response res = filterContext.next(filterableRequestSpecification, filterableResponseSpecification);
 
             if(currentSessionId == null){
-                // Fix for NPE in rest assured...
-                // See http://code.google.com/p/rest-assured/issues/detail?id=173&thanks=173&ts=1337640809
-                if(res.getCookies().size() != 0){
-                    currentSessionId = res.sessionId();
-                }
+                currentSessionId = res.sessionId();
             }
 
             return res;
