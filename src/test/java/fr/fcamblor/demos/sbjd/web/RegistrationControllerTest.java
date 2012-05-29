@@ -59,7 +59,8 @@ public class RegistrationControllerTest {
         Calendar futureCalendar = new GregorianCalendar();
         futureCalendar.add(Calendar.DAY_OF_YEAR, 1);
         expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(futureCalendar.getTime()), VALIDATION_ERROR_HTTP_STATUS_CODE);
-        futureCalendar.add(Calendar.DAY_OF_YEAR, -1);
+        futureCalendar.add(Calendar.DAY_OF_YEAR, -2);
+        futureCalendar.add(Calendar.YEAR, -18);
         expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(futureCalendar.getTime()), VALIDATION_OK_HTTP_STATUS_CODE);
     }
 
@@ -86,6 +87,13 @@ public class RegistrationControllerTest {
         expectCreateUserStatus(user, VALIDATION_OK_HTTP_STATUS_CODE); // long street2 should be ok
         address.setStreet2("aaa");
         expectCreateUserStatus(user, VALIDATION_ERROR_HTTP_STATUS_CODE); // short street2 should _not_ be ok
+    }
+
+    @Test
+    public void nonAdultUserShouldNotBeAllowed(){
+        Calendar birthCalendar = new GregorianCalendar();
+        birthCalendar.add(Calendar.YEAR, -17);
+        expectCreateUserStatus(createWellFormedUserForCreation().setBirthDate(birthCalendar.getTime()), VALIDATION_ERROR_HTTP_STATUS_CODE);
     }
 
     protected User createUser(User userToCreate){

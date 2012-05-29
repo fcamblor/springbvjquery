@@ -1,12 +1,16 @@
 package fr.fcamblor.demos.sbjd.models;
 
 import fr.fcamblor.demos.sbjd.stereotypes.ValidationMode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -27,6 +31,19 @@ public class User {
     List<String> phoneNumbers;
     @Valid
     List<Address> addresses;
+
+    @AssertTrue(message="{user.isAdult}")
+    @JsonIgnore // Useful to avoid errors thrown by jackson when it will try to serialize/deserialize instance
+    public boolean isUserAnAdult(){
+        if(this.birthDate == null){ // birthDate is nullable, we shouldn't fail if it is let empty !
+            return true;
+        }
+
+        Calendar birthCalendar = new GregorianCalendar();
+        birthCalendar.setTime(birthDate);
+        birthCalendar.add(Calendar.YEAR, 18);
+        return birthCalendar.before(new GregorianCalendar());
+    }
 
     public User setId(Long _id){
         this.id = _id;
