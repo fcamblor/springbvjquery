@@ -92,7 +92,7 @@ public class UserHolder {
         storeInSession(USERS_KEY, users);
     }
 
-    public static void updateUserAddresses(Long userId, List<Address> addresses) {
+    public static void addUserAddresses(Long userId, List<Address> addresses) {
         User user = findUserById(userId);
         if(user != null){
             if(user.getAddresses() == null){

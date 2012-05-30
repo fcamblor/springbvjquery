@@ -28,7 +28,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value="/users", method=RequestMethod.POST)
-    public @ResponseBody User registerUser(@RequestBody @Validated(value={ Default.class, ValidationMode.Create.class }) User user){
+    public @ResponseBody User registerUser(@RequestBody @Validated({ Default.class, ValidationMode.Create.class }) User user){
         UserHolder.store(user); // Storing user in session
         return user;
     }
@@ -41,13 +41,13 @@ public class RegistrationController {
 
     @RequestMapping(value="/users/{userId}/addresses", method=RequestMethod.PUT)
     public @ResponseBody Address[] addAddresses(@PathVariable Long userId, @RequestBody @Validated Address[] addresses){
-        UserHolder.updateUserAddresses(userId, Arrays.asList(addresses));
+        UserHolder.addUserAddresses(userId, Arrays.asList(addresses));
         return addresses;
     }
 
     @RequestMapping(value="/users/{userId}/addressList", method=RequestMethod.PUT)
     public @ResponseBody List<Address> addAddresses(@PathVariable Long userId, @RequestBody @Validated List<Address> addresses){
-        UserHolder.updateUserAddresses(userId, addresses);
+        UserHolder.addUserAddresses(userId, addresses);
         return addresses;
     }
 
