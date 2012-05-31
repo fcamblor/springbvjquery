@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/pub/css/libs/twbootstrap/bootstrap-2.0.3.css" rel="stylesheet">
     <link href="/pub/css/libs/twbootstrap/bootstrap-responsive-2.0.3.css" rel="stylesheet">
+    <link href="/pub/css/libs/jquery-ui-bootstrap/jquery-ui-1.8.16.custom.css" rel="stylesheet">
     <link href="/pub/css/springbvjquery/springbvjquery.css" rel="stylesheet">
 
     <script src="/pub/js/libs/jquery/jquery-1.7.2.js"></script>
     <script src="/pub/js/libs/twbootstrap/bootstrap-2.0.3.js"></script>
+    <script src="/pub/js/libs/jquery-ui/jquery-ui-1.8.16.custom.min.js"></script>
     <script src="/pub/js/libs/json/json2.js"></script>
     <script src="/pub/js/springbvjquery/js-utils.js"></script>
     <script src="/pub/js/springbvjquery/spring-validationerrors.js"></script>
@@ -33,6 +35,8 @@
                     }
                 });
             });
+
+            $(".datepicker").datepicker();
         });
     </script>
 </head>
@@ -45,6 +49,8 @@
             <custom:input name="firstName" labelKey="welcome.forms.user.fields.firstname.label" id="userFirstName" />
             <custom:input name="lastName" labelKey="welcome.forms.user.fields.lastname.label" id="userLastName" />
         </fieldset>
+        <input class="datepicker" type="text" />
+
         <input type="text" name="credentials.login" value="foo@bar.com" />
         <input type="password" name="credentials.password" value="hello" />
         <button type="button" id="okButton"><fmt:message key="actions.ok" /></button>
