@@ -30,7 +30,6 @@
                         alert("creation ok");
                     },
                     'error': function(jqXHR, textStatus, errorThrown){
-                        alert("creation error");
                     }
                 });
             });
@@ -60,7 +59,19 @@
         </fieldset>
         <input type="text" name="credentials.login" value="foo@bar.com" />
         <input type="password" name="credentials.password" value="hello" />
-        <button type="button" id="okButton">Ok</button>
+        <button type="button" id="okButton"><fmt:message key="actions.ok" /></button>
     </form>
+    <div class="modal hide fade in" id="creationOk">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal">×</button>
+        <h3><fmt:message key="welcome.forms.creation.congratulations.header" /></h3>
+      </div>
+      <div class="modal-body">
+        <p><fmt:message key="welcome.forms.creation.congratulations.message" /></p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal"><fmt:message key="actions.close" /></a>
+      </div>
+    </div>
 </body>
 </html>
