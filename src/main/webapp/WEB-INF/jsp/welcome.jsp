@@ -42,20 +42,8 @@
     <form class="form-horizontal">
         <fieldset>
             <legend><fmt:message key="welcome.forms.user.legend" /></legend>
-            <div class="control-group">
-                <label class="control-label" for="userFirstName"><fmt:message key="welcome.forms.user.fields.firstname.label" /></label>
-                <div class="controls">
-                    <input id="userFirstName" type="text" name="firstName" value="foo" />
-                    <p class="help-inline"></p>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="userLastName"><fmt:message key="welcome.forms.user.fields.lastname.label" /></label>
-                <div class="controls">
-                    <input id="userLastName" type="text" name="lastName" value="bar" />
-                    <p class="help-inline"></p>
-                </div>
-            </div>
+            <custom:input name="firstName" labelKey="welcome.forms.user.fields.firstname.label" id="userFirstName" />
+            <custom:input name="lastName" labelKey="welcome.forms.user.fields.lastname.label" id="userLastName" />
         </fieldset>
         <input type="text" name="credentials.login" value="foo@bar.com" />
         <input type="password" name="credentials.password" value="hello" />
