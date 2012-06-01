@@ -19,10 +19,14 @@
 
                 var value = null;
                 switch(this.type) {
+                    case 'text':
+                        if($(this).hasClass("datepicker")){
+                            value = $(this).datepicker("getDate");
+                            break;
+                        }
                     case 'select-multiple':
                     case 'select-one':
                     case 'password':
-                    case 'text':
                     case 'textarea':
                     case 'radio':
                         value = $(this).val();
