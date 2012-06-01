@@ -49,8 +49,8 @@
             <legend><fmt:message key="welcome.forms.user.legend" /></legend>
             <custom:input name="firstName" labelKey="welcome.forms.user.fields.firstname.label" id="userFirstName" />
             <custom:input name="lastName" labelKey="welcome.forms.user.fields.lastname.label" id="userLastName" />
+            <custom:input name="birthDate" labelKey="welcome.forms.user.fields.birthdate.label" id="userBirthDate" class="datepicker" />
         </fieldset>
-        <input class="datepicker" type="text" />
 
         <input type="text" name="credentials.login" value="foo@bar.com" />
         <input type="password" name="credentials.password" value="hello" />
