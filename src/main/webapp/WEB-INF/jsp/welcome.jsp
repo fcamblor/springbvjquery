@@ -13,6 +13,7 @@
     <script src="/pub/js/libs/jquery/jquery-1.7.2.js"></script>
     <script src="/pub/js/libs/twbootstrap/bootstrap-2.0.3.js"></script>
     <script src="/pub/js/libs/jquery-ui/jquery-ui-1.8.16.custom.min.js"></script>
+    <script src="/pub/js/libs/jquery-ui/i18n/jquery.ui.datepicker-fr.js"></script>
     <script src="/pub/js/libs/json/json2.js"></script>
     <script src="/pub/js/springbvjquery/js-utils.js"></script>
     <script src="/pub/js/springbvjquery/spring-validationerrors.js"></script>
