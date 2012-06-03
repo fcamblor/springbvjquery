@@ -2,9 +2,9 @@ jQuery.extend({
     /**
      * Main method allowing to display springBindingResults error messages
      */
-    displaySpringErrors: function(springBindingResults) {
+    displaySpringErrors: function(springBindingResults, selector) {
         $.each(springBindingResults, function(index, bindingError){
-            $.displaySpringErrorMessage(bindingError.field, bindingError.defaultMessage);
+            $.displaySpringErrorMessage(selector, bindingError.field, bindingError.defaultMessage);
         });
     },
 
@@ -13,13 +13,13 @@ jQuery.extend({
      * It will first resolve error message emplacement (see resolveErrorMessageContainerInfos function)
      * then display error message (with, eventually, field label appended to it, see resolveFieldLabel function).
      */
-    displaySpringErrorMessage: function(fieldName, springErrorMessage){
-        var errorMessageContainerInfos = $.resolveErrorMessageContainerInfos(fieldName);
+    displaySpringErrorMessage: function(selector, fieldName, springErrorMessage){
+        var errorMessageContainerInfos = $.resolveErrorMessageContainerInfos(selector, fieldName);
 
         // Building error message...
         var errorMessage = "";
         if(errorMessageContainerInfos.fieldLabelNeeded){
-            var fieldLabel = $.resolveFieldLabel(fieldName);
+            var fieldLabel = $.resolveFieldLabel(selector, fieldName);
             if(fieldLabel !== null){
                 errorMessage += fieldLabel + " : ";
             }
@@ -45,14 +45,17 @@ jQuery.extend({
      * or not (will be true if container is a global error item, false otherwise (we succeeded to locate precisely
      * the field : no need to add its label)).
      */
-    resolveErrorMessageContainerInfos: function(fieldName) {
+    resolveErrorMessageContainerInfos: function(selector, fieldName) {
         var errorMessageContainerInfos = {
+            // Will say if label will be needed in error message (in particular cases, such as when twitter bootstrap's
+            // help block is present, we don't need to append the label to the error message)
             fieldLabelNeeded: true,
+            // Error field container where the error message will be appended
             container: null
         };
 
         // Trying to resolve input field
-        var inputField = $(":input[name='"+fieldName+"']");
+        var inputField = $(":input[name='"+fieldName+"']", selector);
         if(inputField.length !== 0){
             // Trying to resolve twitter bootstrap help blocks around input field
             var twitterBootstrapHelp = inputField.siblings(".help-block, .help-inline");
@@ -79,8 +82,8 @@ jQuery.extend({
      * This method will never return null (at worst, if no label is found, techniqual field name will be displayed
      * with brackets)
      */
-    resolveFieldLabel: function(fieldName){
-        var labelElement = $("label[for='"+fieldName+"']");
+    resolveFieldLabel: function(selector, fieldName){
+        var labelElement = $("label[for='"+fieldName+"']", selector);
 
         if(labelElement.length !== 0){ return labelElement.html(); }
         else { return "["+fieldName+"]"; }
