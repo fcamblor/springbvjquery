@@ -31,7 +31,10 @@ jQuery.extend({
         errorMessage += springErrorMessage;
 
         // Displaying error message
-        errorMessageContainerInfos.container.text(errorMessage);
+        var existingContent = errorMessageContainerInfos.container.text();
+        if(existingContent !== ""){
+            errorMessage += existingContent + ", " + errorMessage;
+        }
 
         // Adding field name class to error message container (will be useful later, when cleaning things in global errors)
         if(!errorMessageContainerInfos.container.hasClass(fieldName)){
