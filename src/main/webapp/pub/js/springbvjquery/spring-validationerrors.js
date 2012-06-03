@@ -14,7 +14,11 @@ jQuery.extend({
      * then display error message (with, eventually, field label appended to it, see resolveFieldLabel function).
      */
     displaySpringErrorMessage: function(selector, fieldName, springErrorMessage){
-        var errorMessageContainerInfos = $.resolveErrorMessageContainerInfos(selector, fieldName);
+        var errorMessageContainerInfos = $.resolveErrorMessageContainerInfos(selector, fieldName, true);
+
+        if(errorMessageContainerInfos.fieldGroup){
+            errorMessageContainerInfos.fieldGroup.addClass("error");
+        }
 
         // Building error message...
         var errorMessage = "";
@@ -28,6 +32,11 @@ jQuery.extend({
 
         // Displaying error message
         errorMessageContainerInfos.container.text(errorMessage);
+
+        // Adding field name class to error message container (will be useful later, when cleaning things in global errors)
+        if(!errorMessageContainerInfos.container.hasClass(fieldName)){
+            errorMessageContainerInfos.container.addClass(fieldName);
+        }
     },
 
     globalErrors: function(){ return $("ul.global.errors"); },
@@ -45,13 +54,15 @@ jQuery.extend({
      * or not (will be true if container is a global error item, false otherwise (we succeeded to locate precisely
      * the field : no need to add its label)).
      */
-    resolveErrorMessageContainerInfos: function(selector, fieldName) {
+    resolveErrorMessageContainerInfos: function(selector, fieldName, createContainerIfNotExist) {
         var errorMessageContainerInfos = {
             // Will say if label will be needed in error message (in particular cases, such as when twitter bootstrap's
             // help block is present, we don't need to append the label to the error message)
             fieldLabelNeeded: true,
             // Error field container where the error message will be appended
-            container: null
+            container: null,
+            // Will provide field enclosing group if available (for example, when we have a twitter bootstrap help block)
+            fieldGroup: null
         };
 
         // Trying to resolve input field
@@ -62,16 +73,18 @@ jQuery.extend({
             if(twitterBootstrapHelp.length !== 0){
                 errorMessageContainerInfos.container = twitterBootstrapHelp;
                 errorMessageContainerInfos.fieldLabelNeeded = false;
-
-                twitterBootstrapHelp.parents(".control-group").addClass("error");
+                errorMessageContainerInfos.fieldGroup = twitterBootstrapHelp.parents(".control-group");
 
                 return errorMessageContainerInfos;
             }
         }
 
         // Falling back to global errors listing
-        errorMessageContainerInfos.container = $("<li></li>");
-        errorMessageContainerInfos.container.appendTo($.globalErrors());
+        if(createContainerIfNotExist){
+            errorMessageContainerInfos.container = $("<li></li>");
+            errorMessageContainerInfos.container.appendTo($.globalErrors());
+        }
+
         return errorMessageContainerInfos;
     },
 
@@ -90,3 +103,33 @@ jQuery.extend({
     }
 
 });
+
+(function( $ ){
+
+    /**
+     * Will clean every spring errors displayed during displaySpringErrors()
+     */
+    $.fn.cleanSpringErrors = function(){
+        var globalErrors = $.globalErrors();
+        return this.each(function(){
+            var selector = this;
+            $(":input", this).each(function(){
+                var fieldName = $(this).attr("name");
+                if(fieldName){
+                    var errorMessageContainerInfos = $.resolveErrorMessageContainerInfos(selector, fieldName, false);
+                    if(errorMessageContainerInfos.container){
+                        errorMessageContainerInfos.container.text("");
+                    }
+                    if(errorMessageContainerInfos.fieldGroup){
+                        errorMessageContainerInfos.fieldGroup.removeClass("error");
+                    }
+
+                    // Deleting global errors if needed
+                    globalErrors.find("."+fieldName).remove();
+                }
+            });
+        });
+    };
+
+})( jQuery );
+

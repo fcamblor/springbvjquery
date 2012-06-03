@@ -21,7 +21,7 @@
     <script>
         $(function(){
             $("#okButton").live("click", function(){
-                var userInfos = $("form").inputsToJSON();
+                var userInfos = $("form").cleanSpringErrors().inputsToJSON();
                 $.ajax({
                     'type': "POST",
                     'url': "/users",
