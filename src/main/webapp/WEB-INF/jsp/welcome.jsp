@@ -57,7 +57,7 @@
             <custom:input name="credentials.login" labelKey="welcome.forms.user.fields.login.label" id="userLogin" />
             <custom:input name="credentials.password" labelKey="welcome.forms.user.fields.password.label" type="password" id="userPassword" />
         </fieldset>
-        <button type="button" id="okButton"><fmt:message key="actions.ok" /></button>
+        <button type="button" class="btn btn-primary" id="okButton"><fmt:message key="actions.ok" /></button>
     </form>
     <div class="modal hide fade in" id="creationOk">
       <div class="modal-header">
