@@ -113,8 +113,16 @@ jQuery.extend({
     /**
      * Will clean every spring errors displayed during displaySpringErrors()
      */
-    $.fn.cleanSpringErrors = function(){
+    $.fn.cleanSpringErrors = function(fullyCleanGlobalErrors){
+        if(fullyCleanGlobalErrors === undefined){
+            fullyCleanGlobalErrors = true;
+        }
+
         var globalErrors = $.globalErrors();
+        if(fullyCleanGlobalErrors){
+            globalErrors.find("li").remove();
+        }
+
         return this.each(function(){
             var selector = this;
             $(":input", this).each(function(){
@@ -128,7 +136,7 @@ jQuery.extend({
                         errorMessageContainerInfos.fieldGroup.removeClass("error");
                     }
 
-                    // Deleting global errors if needed
+                    // Deleting global errors if needed (fullyCleanGlobalErrors = true, it should be already done)
                     globalErrors.find("."+fieldName).remove();
                 }
             });
