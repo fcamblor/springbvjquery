@@ -33,10 +33,9 @@ public class RegistrationController {
         return user;
     }
 
-    @RequestMapping(value="/users", method=RequestMethod.PUT)
-    public @ResponseBody User updateRegisteredUser(@RequestBody @Validated({ Default.class, ValidationMode.Update.class }) User user){
-        UserHolder.update(user); // Updating stored user infos
-        return user;
+    @RequestMapping(value="/users", method=RequestMethod.GET)
+    public @ResponseBody List<User> retrieveStoredUsers(){
+        return UserHolder.users();
     }
 
     @RequestMapping(value="/users/{userId}/addresses", method=RequestMethod.PUT)
@@ -49,6 +48,12 @@ public class RegistrationController {
     public @ResponseBody List<Address> addAddresses(@PathVariable Long userId, @RequestBody @Validated List<Address> addresses){
         UserHolder.addUserAddresses(userId, addresses);
         return addresses;
+    }
+
+    @RequestMapping(value="/users/registered", method=RequestMethod.PUT)
+    public @ResponseBody User updateRegisteredUser(@RequestBody @Validated({ Default.class, ValidationMode.Update.class }) User user){
+        UserHolder.update(user); // Updating stored user infos
+        return user;
     }
 
     @RequestMapping(value="/users/registered", method=RequestMethod.GET)

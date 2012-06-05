@@ -117,7 +117,7 @@ public class RegistrationControllerTest {
     }
 
     protected Response expectUpdateUserStatus(User userToCreate, int expectedStatusCode){
-        return putJSONAndExpectStatus("/users", userToCreate, expectedStatusCode);
+        return putJSONAndExpectStatus("/users/registered", userToCreate, expectedStatusCode);
     }
 
     protected <T> T getObjectAndExpectStatus(String url, Class<T> clazz, int expectedStatusCode){
