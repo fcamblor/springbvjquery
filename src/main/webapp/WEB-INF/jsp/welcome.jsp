@@ -50,10 +50,9 @@
             <custom:input name="firstName" labelKey="welcome.forms.user.fields.firstname.label" id="userFirstName" />
             <custom:input name="lastName" labelKey="welcome.forms.user.fields.lastname.label" id="userLastName" />
             <custom:input name="birthDate" labelKey="welcome.forms.user.fields.birthdate.label" id="userBirthDate" class="datepicker" />
+            <custom:input name="credentials.login" labelKey="welcome.forms.user.fields.login.label" id="userLogin" />
+            <custom:input name="credentials.password" labelKey="welcome.forms.user.fields.password.label" type="password" id="userPassword" />
         </fieldset>
-
-        <input type="text" name="credentials.login" value="foo@bar.com" />
-        <input type="password" name="credentials.password" value="hello" />
         <button type="button" id="okButton"><fmt:message key="actions.ok" /></button>
     </form>
     <div class="modal hide fade in" id="creationOk">
