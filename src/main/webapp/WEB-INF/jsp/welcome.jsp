@@ -22,6 +22,10 @@
         $(function(){
             $("#okButton").live("click", function(){
                 var userInfos = $("form").cleanSpringErrors().inputsToJSON();
+
+                // For the moment, we hardcode phoneNumber (I'll provide UI for this later...)
+                userInfos.phoneNumbers = [ "0123456789", "1234567890" ];
+
                 $.ajax({
                     'type': "POST",
                     'url': "/users",
