@@ -114,6 +114,9 @@ jQuery.extend({
      * Will clean every spring errors displayed during displaySpringErrors()
      */
     $.fn.cleanSpringErrors = function(fullyCleanGlobalErrors){
+        // By default, we should clean every global errors
+        // Set this flag to false as soon as you will have more than one form on your page which could
+        // fill global errors area
         if(fullyCleanGlobalErrors === undefined){
             fullyCleanGlobalErrors = true;
         }
