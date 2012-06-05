@@ -35,6 +35,7 @@ jQuery.extend({
         if(existingContent !== ""){
             errorMessage += existingContent + ", " + errorMessage;
         }
+        errorMessageContainerInfos.container.text(errorMessage);
 
         // Adding field name class to error message container (will be useful later, when cleaning things in global errors)
         if(!errorMessageContainerInfos.container.hasClass(fieldName)){
