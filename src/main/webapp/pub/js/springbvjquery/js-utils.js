@@ -6,6 +6,7 @@
      * Note that if input field name has "dots" (example : "foo.bar.baz"), it will be transformed into
      * a hierarchical JSON representation ({ foo: { bar: { baz: "value" } } })
      * If several fields has the same name, a value array will be created
+     * jsfiddle allowing to test it : http://jsfiddle.net/fcamblor/MLf7c/#base
      */
     $.fn.inputsToJSON = function(){
         var jsonObject = {};
@@ -20,6 +21,7 @@
                 var value = null;
                 switch(this.type) {
                     case 'text':
+                        // Special case handling jquery datepickers
                         if($(this).hasClass("datepicker")){
                             value = $(this).datepicker("getDate");
                             break;
@@ -28,14 +30,31 @@
                     case 'select-one':
                     case 'password':
                     case 'textarea':
-                    case 'radio':
                         value = $(this).val();
                         break;
-                    case 'checkbox':
-                        if($(field).val() === "on"){
-                            value = this.checked;
+                    case 'radio':
+                        // Adding the value only if the radio is checked
+                        if($(this).is(":checked")){
+                            value = $(this).val();
                         } else {
-                            value = this.checked?$(this).val():null;
+                            // Otherwise (if radio not checked), we should return
+                            // and not populate the object
+                            return;
+                        }
+                        break;
+                    case 'checkbox':
+                        var checkedCheckbox = $(this).is(":checked");
+                        // Handling special case where checkbox doesn't have any value attribute
+                        if($(this).val() === "on"){
+                            value = checkedCheckbox;
+                        } else {
+                            if(checkedCheckbox){
+                                value = $(this).val();
+                            } else {
+                                // If there is a value set and checkbox is not checked, we shouldn't add
+                                // it to the result
+                                return;
+                            }
                         }
                         break;
                 }
